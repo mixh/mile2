@@ -1,0 +1,163 @@
+{{!-- <body>
+  <h1>Invoice</h1>
+  <h2>Mile Pharma LLP</h2>
+  <p>S8 - Jyoti Nagar Extension, Jaipur, Rajasthan</p>
+
+  <h1>User Details</h1>
+  <h2>Name: {{user.name}}</h2>
+  <h3>Address: {{user.address}}</h3>
+  <h3>Buyer Unique Code: {{user.uniqueCode}}</h3>
+
+  <h3>Products:</h3>
+  <ul>
+    {{#each user.products}}
+      <li>
+        <span>Product Name: {{this.productName}}</span>
+        <br>
+        <span>Discount: {{this.ProductDiscountPercentage}}</span>
+        <input type="checkbox" name="selectedProducts[]" value="{{this.productName}}">
+        <input type="number" name="discounts[]" value="{{this.ProductDiscountPercentage}}">
+        <input type="number" name="quantities[]" placeholder="Quantity">
+      </li>
+    {{/each}}
+  </ul>
+
+  <button type="button" onclick="previewBill()">Preview</button>
+
+  <div id="billPreview" style="display: none;">
+    <h3>Bill Preview:</h3>
+    <ul id="previewList"></ul>
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    function previewBill() {
+      const selectedProducts = document.getElementsByName("selectedProducts[]");
+      const quantities = document.getElementsByName("quantities[]");
+      const discounts = document.getElementsByName("discounts[]");
+
+      // Clear the previous preview
+      const previewList = document.getElementById("previewList");
+      previewList.innerHTML = "";
+
+      // Generate the new preview
+      for (let i = 0; i < selectedProducts.length; i++) {
+        if (selectedProducts[i].checked) {
+          const productName = selectedProducts[i].value;
+          const quantity = quantities[i].value;
+          const disc = discounts[i].value;
+
+          const listItem = document.createElement("li");
+          listItem.innerText = `Product Name: ${productName}, Discount: ${disc}, Quantity: ${quantity}`;
+          previewList.appendChild(listItem);
+        }
+      }
+      
+      const billPreview = document.getElementById("billPreview");
+      billPreview.style.display = "block";
+    }
+
+    function downloadPDF() {
+      const doc = new jsPDF();
+      doc.text("Bill Preview:", 10, 10);
+
+      const previewItems = document.querySelectorAll("#previewList li");
+      let yPos = 20;
+
+      previewItems.forEach((item) => {
+        doc.text(item.innerText, 10, yPos);
+        yPos += 10;
+      });
+
+      doc.save("bill.pdf");
+    }
+  </script>
+</body> --}}
+
+<body>
+  <h1>Invoice</h1>
+  <h2>Mile Pharma LLP</h2>
+  <p>S8 - Jyoti Nagar Extension, Jaipur, Rajasthan</p>
+
+  <h1>User Details</h1>
+  <h2>Name: {{user.name}}</h2>
+  <h3>Address: {{user.address}}</h3>
+  <h3>Buyer Unique Code: {{user.uniqueCode}}</h3>
+
+  <h3>Products:</h3>
+  <ul>
+    {{#each user.products}}
+      <li>
+        <span>Product Name: {{this.productName}}</span>
+        <br>
+        <span>Discount: {{this.ProductDiscountPercentage}}</span>
+        <input type="checkbox" name="selectedProducts[]" value="{{this.productName}}">
+        <input type="number" name="discounts[]" value="{{this.ProductDiscountPercentage}}">
+        <input type="number" name="quantities[]" placeholder="Quantity">
+      </li>
+    {{/each}}
+  </ul>
+
+  <button type="button" onclick="generatePreview()">Preview</button>
+
+  <div id="billPreview" style="display: none;">
+    <h3>Bill Preview:</h3>
+    <ul id="previewList"></ul>
+    <button onclick="redirectToGenerateRoute()">Generate Invoice</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    function generatePreview() {
+      const selectedProducts = document.getElementsByName("selectedProducts[]");
+      const quantities = document.getElementsByName("quantities[]");
+      const discounts = document.getElementsByName("discounts[]");
+
+      // Clear the previous preview
+      const previewList = document.getElementById("previewList");
+      previewList.innerHTML = "";
+
+      // Generate the new preview
+      for (let i = 0; i < selectedProducts.length; i++) {
+        if (selectedProducts[i].checked) {
+          const productName = selectedProducts[i].value;
+          const quantity = quantities[i].value;
+          const disc = discounts[i].value;
+
+          const listItem = document.createElement("li");
+          listItem.innerText = `Product Name: ${productName}, Discount: ${disc}, Quantity: ${quantity}`;
+          previewList.appendChild(listItem);
+        }
+      }
+      
+      const billPreview = document.getElementById("billPreview");
+      billPreview.style.display = "block";
+    }
+
+    function redirectToGenerateRoute() {
+      const selectedProducts = document.getElementsByName("selectedProducts[]");
+      const quantities = document.getElementsByName("quantities[]");
+      const discounts = document.getElementsByName("discounts[]");
+
+      const selectedProductsArr = [];
+      const quantitiesArr = [];
+      const discountsArr = [];
+
+      // Get selected product details
+      for (let i = 0; i < selectedProducts.length; i++) {
+        if (selectedProducts[i].checked) {
+          selectedProductsArr.push(selectedProducts[i].value);
+          quantitiesArr.push(quantities[i].value);
+          discountsArr.push(discounts[i].value);
+        }
+      }
+
+      // Redirect to the generate route with parameters
+    const queryParams = `products=${encodeURIComponent(selectedProductsArr.join(','))}&quantities=${encodeURIComponent(quantitiesArr.join(','))}&discounts=${encodeURIComponent(discountsArr.join(','))}&name={{user.name}}&uniqueCode={{user.uniqueCode}}&address={{user.address}}`;
+
+
+      window.location.href = `/generate?${queryParams}`;
+    }
+  </script>
+</body>

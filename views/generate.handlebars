@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{title}}</title>
+</head>
+<body>
+  <h1>Invoice</h1>
+  <h2>Mile Pharma LLP</h2>
+  <p>S8 - Jyoti Nagar Extension, Jaipur, Rajasthan</p>
+
+  <h1>User Details</h1>
+  <h2>Name: {{user.name}}</h2>
+  <h3>Address: {{user.address}}</h3>
+  <h3>Buyer Unique Code: {{user.uniqueCode}}</h3>
+
+  <h3>Products:</h3>
+  <ul>
+    {{#each user.products}}
+      <li>
+        <span>Product Name: {{this.productName}}</span>
+        <br>
+        <span>Discount: {{this.ProductDiscountPercentage}}</span>
+        <br>
+        <span>Quantity: {{this.quantity}}</span>
+      </li>
+    {{/each}}
+  </ul>
+
+  <h3>Date: {{currentDate}}</h3>
+</body>
+</html>
